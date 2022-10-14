@@ -1,0 +1,52 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+.dragging {
+  position: relative;
+}
+.dragging:after {
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  content: "";
+  background: cornflowerblue;
+  position: absolute;
+  z-index: -1;
+}
+.dragover {
+  position: relative;
+}
+.dragover:before {
+  content: "";
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 5px;
+  background: #ccc;
+  position: absolute;
+  z-index: 1;
+}
+
+th,
+td {
+  /* border: 1px solid #000000; */
+  resize: horizontal;
+  overflow: scroll;
+  /* width: max-content; */
+  word-break: break-all;
+}
+
+.wrapped {
+  white-space: nowrap;
+  word-break: break-all;
+}
+td.active,
+th.active {
+  background: cornflowerblue;
+}
+
+td::-webkit-resizer {
+  background-color: transparent;
+}
