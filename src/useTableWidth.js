@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-
 const useTableWidth = () => {
+  const minWrapValue = 100;
   function GetIndex(element) {
     var aElements = element.parentNode.getElementsByTagName("th");
     var aElementsLength = aElements?.length;
@@ -14,6 +13,12 @@ const useTableWidth = () => {
     }
   }
 
+  const setIsNoWrap = (element, innerContentWidth) => {
+    parseInt(innerContentWidth, 10) <= minWrapValue
+      ? element.classList.add("noWrap")
+      : element.classList.remove("noWrap");
+  };
+
   const setContentWidth = (
     event,
     lengthOfColumns,
@@ -22,7 +27,7 @@ const useTableWidth = () => {
   ) => {
     //set current column label width
     event.target.firstChild.style.width = innerContentWidth;
-
+    setIsNoWrap(event.target.firstChild, innerContentWidth);
     //set current column data width
     const rows = event.target.parentNode.parentNode.nextElementSibling.querySelectorAll(
       "tr"
@@ -31,6 +36,7 @@ const useTableWidth = () => {
       const rowElements = rows[i].querySelectorAll("td");
       if (rowElements.length === lengthOfColumns) {
         rowElements[indexOfElement].firstChild.style.width = innerContentWidth;
+        setIsNoWrap(rowElements[indexOfElement].firstChild, innerContentWidth);
       }
     }
   };
@@ -38,8 +44,7 @@ const useTableWidth = () => {
   const mainActions = (event) => {
     const { lengthOfColumns, indexOfElement } = GetIndex(event.target);
     // event.target.classList.add("resize_activated");
-    const innerContentWidth =
-      parseInt(event.target.offsetWidth * 0.6, 10) + "px";
+    let innerContentWidth = parseInt(event.target.offsetWidth * 0.6, 10) + "px";
     setContentWidth(event, lengthOfColumns, indexOfElement, innerContentWidth);
   };
 
